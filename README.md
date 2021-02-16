@@ -15,8 +15,8 @@ Paper link: https://arxiv.org/pdf/2101.06829.pdf
 
 We use the following packages, we recommend you to use a virtual environment (e.g. conda).
 - Python 3.7
-- torch == 1.5.0
-- transformers == 2.11.0
+- torch==1.5.0
+- transformers==2.11.0
   
 Also, please run:
 
@@ -42,7 +42,7 @@ After training, you can use the "eval" command to only get test-set result.
 
 ### Noise LM Model Training
 
-As explained in the paper, before conducting NCE training, one need to first prepare noise data.
+As explained in the paper, before conducting NCE training, we need to first prepare noise data.
 
 First, let's train a noise LM with the MLM objective.
 
