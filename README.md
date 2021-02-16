@@ -75,10 +75,13 @@ You will get the accuracy / ece number at the end of the log.
 
 ## Citation
 
-``` @misc{he2021joint, title={Joint Energy-based Model Training for Better
+
+``` 
+@misc{he2021joint, title={Joint Energy-based Model Training for Better
 Calibrated Natural Language Understanding Models}, author={Tianxing He and
 Bryan McCann and Caiming Xiong and Ehsan Hosseini-Asl}, year={2021},
-eprint={2101.06829}, archivePrefix={arXiv}, primaryClass={cs.CL} } ```
+eprint={2101.06829}, archivePrefix={arXiv}, primaryClass={cs.CL} } 
+```
 
 
 ## License
