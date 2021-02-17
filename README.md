@@ -86,6 +86,6 @@ eprint={2101.06829}, archivePrefix={arXiv}, primaryClass={cs.CL} }
 
 ## License
 
-Please see LICENSE.md .
+Please see [LICENSE](https://github.com/salesforce/ebm_calibration_nlu/blob/main/LICENSE.md).
 
 
