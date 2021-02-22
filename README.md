@@ -31,6 +31,9 @@ Finally, we assume that GPU (CUDA) is available .
 for glue data, go to ebm_calibration_nlu/data-sets/glue, and run
 ```python download_glue_data.py```
 
+We find that the official MRPC data has been changed recently, and it may disable our code to run.
+Therefore, we provide an original copy of MRPC at data-sets/glue/MRPC_overwrite/ , you can overwrite data-sets/glue/glue_data/MRPC/ with it to enable our code to run.
+
 ### Baseline Training
 
 To reproduce the Roberta-base baseline, please run
