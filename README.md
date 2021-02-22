@@ -52,9 +52,21 @@ First, let's train a noise LM with the MLM objective.
 ``` MODE=partial2full RATE=0.4 TASK_NAME=QNLI bash ./scripts/lm_ncenoise.sh train ```
 
 For QNLI, you should get a test-PPL around 3.64 .
+We find that a mask rate of 0.4 works well for most tasks, however, for some task with fewer data, it's sometimes better to use a smaller rate. (Because the trained LM is not so good)
+For MRPC / CoLA / RTE / WNLI, we tune the rate in {0.1, 0.2, 0.4} for each EBM variant (e.g., use RATE=0.2 in the command), and report the best result.
+
 Next, to generate noise samples:
 
 ``` MODE=partial2full RATE=0.4 TASK_NAME=QNLI bash ./scripts/lm_ncenoise.sh gen_save ```
+
+(Not necessary but recommended) For some large data-sets like QQP or MNLI, we need to generate more noise samples so that we won't use the same noise sample twice, please do this by:
+
+``` SEED=2 MODE=partial2full RATE=0.4 TASK_NAME=MNLI bash ./scripts/lm_ncenoise.sh gen_save_seed ```
+``` SEED=3 MODE=partial2full RATE=0.4 TASK_NAME=MNLI bash ./scripts/lm_ncenoise.sh gen_save_seed ```
+``` SEED=4 MODE=partial2full RATE=0.4 TASK_NAME=MNLI bash ./scripts/lm_ncenoise.sh gen_save_seed ```
+``` SEED=5 MODE=partial2full RATE=0.4 TASK_NAME=MNLI bash ./scripts/lm_ncenoise.sh gen_save_seed ```
+
+You can run this in parallel as they won't write to the same file. These files will be automatically loaded by the data reader when we do NCE training.
 
 ### Energy Model Training
 
@@ -72,7 +84,10 @@ To run the "sharp-hidden" variant:
 
 ``` LMMODE=partial2full LMP2FRATE=0.4 NMODE=selflabeled NRATIO=8 TASK_NAME=QNLI ./scripts/glue_nce.sh train ```
 
+"NRATIO" refers to the noise ratio for the NCE objective. In our experiments, we tune it to be 1 or 8 (e.g., by setting NRATIO=1 in the command). In some cases, a small ratio of 1 actually works better than 8.
+
 Again, after training you can use the "eval" command to just re-run the testing.
+
 You will get the accuracy / ece number at the end of the log.
 
 
