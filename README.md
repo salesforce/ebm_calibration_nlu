@@ -31,7 +31,7 @@ Finally, we assume that GPU (CUDA) is available .
 for glue data, go to ebm_calibration_nlu/data-sets/glue, and run
 ```python download_glue_data.py```
 
-We find that the official MRPC data has been changed recently, and it may disable our code to run.
+We find that the official MRPC data has been changed recently, and it may cause errors in our code.
 Therefore, we provide an original copy of MRPC at data-sets/glue/MRPC_overwrite/ , you can overwrite data-sets/glue/glue_data/MRPC/ with it to enable our code to run.
 
 ### Baseline Training
@@ -62,11 +62,14 @@ Next, to generate noise samples:
 (Not necessary but recommended) For some large data-sets like QQP or MNLI, we need to generate more noise samples so that we won't use the same noise sample twice, please do this by:
 
 ``` SEED=2 MODE=partial2full RATE=0.4 TASK_NAME=MNLI bash ./scripts/lm_ncenoise.sh gen_save_seed ```
+
 ``` SEED=3 MODE=partial2full RATE=0.4 TASK_NAME=MNLI bash ./scripts/lm_ncenoise.sh gen_save_seed ```
+
 ``` SEED=4 MODE=partial2full RATE=0.4 TASK_NAME=MNLI bash ./scripts/lm_ncenoise.sh gen_save_seed ```
+
 ``` SEED=5 MODE=partial2full RATE=0.4 TASK_NAME=MNLI bash ./scripts/lm_ncenoise.sh gen_save_seed ```
 
-You can run this in parallel as they won't write to the same file. These files will be automatically loaded by the data reader when we do NCE training.
+You can run this in parallel as they won't write to the same file. These additional noise files will be automatically loaded by the data reader when we do NCE training.
 
 ### Energy Model Training
 
@@ -84,9 +87,9 @@ To run the "sharp-hidden" variant:
 
 ``` LMMODE=partial2full LMP2FRATE=0.4 NMODE=selflabeled NRATIO=8 TASK_NAME=QNLI ./scripts/glue_nce.sh train ```
 
-"NRATIO" refers to the noise ratio for the NCE objective. In our experiments, we tune it to be 1 or 8 (e.g., by setting NRATIO=1 in the command). In some cases, a small ratio of 1 actually works better than 8.
+"NRATIO" refers to the noise ratio for the NCE objective. In our experiments, we tune it to be 1 or 8 (e.g., by setting NRATIO=1 in the command). When the data size is smaller (MRPC / CoLA / RTE / WNLI), a small noise ratio of 1 sometimes works better than 8.
 
-Again, after training you can use the "eval" command to just re-run the testing.
+Again, after training you can use the "eval" (e.g., replace "train" with "eval") command to just re-run the testing.
 
 You will get the accuracy / ece number at the end of the log.
 
